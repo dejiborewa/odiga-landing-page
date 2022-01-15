@@ -1,9 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Nav from "../components/nav";
 import HomeBg from "../assets/homeBg.png";
 import Search from "../components/search";
-import { benefits } from "../data/text";
+import { benefits, getInspired } from "../data/text";
+import LocationCard from "../components/locationCard";
 
 const Banner = styled.main``;
 
@@ -22,7 +23,6 @@ const Section = styled.section`
     &.top {
         width: 100%;
         height: 100vh;
-        padding: 0em 1em;
 
         & > div {
             @media (max-width: 360px) {
@@ -32,6 +32,10 @@ const Section = styled.section`
             position: relative;
             top: 15%;
         }
+    }
+
+    &.general {
+        padding: 0em 1em;
 
         @media (min-width: 768px) {
             padding: 0 2em;
@@ -108,7 +112,7 @@ const Container = styled.div`
 
         @media (min-width: 1024px) {
             position: relative;
-            top: -5em;
+            top: -10em;
             width: 80%;
             margin: 0 auto;
             background: white;
@@ -137,6 +141,20 @@ const Container = styled.div`
 
         @media (min-width: 1440px) {
             margin-top: 3em;
+        }
+    }
+
+    &.get-inspired {
+        display: flex;
+        justify-content: space-between;
+        aligin-items: center;
+    }
+
+    &.locations {
+        margin-top: 1em;
+
+        @media (min-width: 768px) {
+            margin-top: 2em;
         }
     }
 `;
@@ -175,7 +193,7 @@ const Heading = styled.p`
     font-weight: 500;
     color: black;
     font-size: 18px;
-    
+
     @media (min-width: 1024px) {
         min-height: 49.6px;
     }
@@ -186,6 +204,31 @@ const Span = styled.span`
     margin-top: 2em;
     color: #006dfe;
     cursor: pointer;
+
+    ${(props) =>
+        props.getInspired &&
+        css`
+            display: none;
+
+            @media (min-width: 768px) {
+                display: block;
+                margin: 0;
+            }
+        `}
+`;
+
+const Locations = styled.div`
+    @media (min-width: 1024px) {
+        display: flex;
+        width: auto;
+        margin-right: -0.5em;
+    }
+`;
+
+const Border = styled.div`
+    width: 75%;
+    border-bottom: 2px solid #006dfe;
+    padding-top: 0.3em;
 `;
 
 function Home() {
@@ -193,7 +236,7 @@ function Home() {
         <Banner>
             <Section className="main">
                 <Nav />
-                <Section className="top">
+                <Section className="top general">
                     <Container>
                         <Container className="intro">
                             <Intro>Discover Amazing places in Japan</Intro>
@@ -242,6 +285,44 @@ function Home() {
                             </Container>
                         ))}
                     </Container>
+                </Container>
+            </Section>
+
+            <Section className="general">
+                <Container className="get-inspired">
+                    <Container>
+                        <Header>Get inspired for your next trip</Header>
+                        <Border></Border>
+                    </Container>
+
+                    <Span getInspired>
+                        VIEW ALL{" "}
+                        <svg
+                            width="33"
+                            style={{ marginLeft: "1em" }}
+                            height="8"
+                            viewBox="0 0 33 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M24.7706 3H0V5H24.7706V8L33 4L24.7706 0V3Z"
+                                fill="#006DFE"
+                            />
+                        </svg>
+                    </Span>
+                </Container>
+                <Container className="locations">
+                    <Locations>
+                        {getInspired.slice(0, 2).map((data, index) => (
+                            <LocationCard data={data} />
+                        ))}
+                    </Locations>
+                    <Locations>
+                        {getInspired.slice(2).map((data, index) => (
+                            <LocationCard data={data} />
+                        ))}
+                    </Locations>
                 </Container>
             </Section>
         </Banner>
